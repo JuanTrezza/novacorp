@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Barlow Condensed", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-heading: "Space Grotesk", sans-serif;
+
+  --color-cyber-yellow: #fde400;
+  --color-cyber-cyan: #00eefc;
+  --color-cyber-dark: #151408;
+  --color-cyber-gray: #383527;
+  --color-cyber-text: #e8e2cf;
+  --color-cyber-muted: #cdc7aa;
+}
+
+@layer utilities {
+  .clip-angled {
+    clip-path: polygon(10% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%, 0% 10%);
+  }
+  .clip-button {
+    clip-path: polygon(0 0, 85% 0, 100% 30%, 100% 100%, 15% 100%, 0 70%);
+  }
+  .scanline {
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 238, 252, 0.05) 50%);
+    background-size: 100% 4px;
+  }
+  .grid-blueprint {
+    background-image: radial-gradient(rgba(0, 238, 252, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hazard-stripes {
+    background: repeating-linear-gradient(45deg, #93000a, #93000a 10px, #151408 10px, #151408 20px);
+  }
+  .glow-yellow {
+    filter: drop-shadow(0 0 8px rgba(253, 228, 0, 0.6));
+  }
+  .glow-cyan {
+    filter: drop-shadow(0 0 8px rgba(0, 238, 252, 0.6));
+  }
+  .vertical-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
+
+body {
+  background-color: var(--color-cyber-dark);
+  color: var(--color-cyber-text);
+  overflow-x: hidden;
+}
