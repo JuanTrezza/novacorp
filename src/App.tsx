@@ -3,21 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  MemoryStick as Memory, 
   Eye, 
   Zap, 
   ShoppingCart, 
   Twitter, 
   MessageSquare, 
   Briefcase, 
-  Shield, 
-  ChevronRight,
-  Database,
-  Crosshair,
-  Cpu
+  Cpu,
+  Menu,
+  X
 } from 'lucide-react';
 
 const FEAT_AUGMENTS = [
@@ -47,26 +44,79 @@ const FEAT_AUGMENTS = [
   }
 ];
 
-const LOGS = [
+const TESTIMONIALS = [
   {
-    id: '9921_OPERATOR',
-    author: 'V. Malone',
-    role: 'Professional Mercenary',
-    content: "The Neural Overlink didn't just save my life during the Night City heist—it made me a god. Zero latency, 100% precision. NovaCorp is the only clinic I trust with my wetware.",
-    color: 'border-cyber-cyan'
+    name: 'KIRA VEX',
+    content:
+      'Operación Blackwall. Perdí sensibilidad en ambos brazos tras una emboscada Militech. NovaCorp instaló tendones sintéticos y un enlace neural dual en 17 horas. Volví al campo con +22% de precisión balística y cero latencia táctil.'
   },
   {
-    id: '8840_STREET_DOC',
-    author: 'Dr. Arasaka',
-    role: 'Ripperdoc',
-    content: "I've seen a lot of budget chrome fail on the operating table. NovaCorp's hardware is different. It's clean, it's durable, and the rejection rates are virtually zero. Pure tech excellence.",
-    color: 'border-cyber-yellow'
-  }
+    name: 'AXEL MORROW',
+    content:
+      'Solicité un Kiroshi MK-IV con módulo térmico para infiltración nocturna. El calibrado de retina fue perfecto al primer ciclo. Reconocimiento de amenazas en 0.3s y sincronización total con mi Sandevistan E-7. Nivel corporativo real.'
+  },
+  {
+    name: 'DR. N. KOVAL',
+    content:
+      'Como cirujano de trauma, evalué sus bio-polímeros de sellado vascular en 41 pacientes de alto riesgo. Rechazo inmunológico prácticamente nulo y recuperación de tejido acelerada. NovaCorp está 5 años por delante de cualquier clínica de Night City.'
+  },
 ];
 
+const NAV_LINKS = [
+  { label: 'SYST_INIT', id: 'syst-init' },
+  { label: 'AUG_CATALOG', id: 'aug-catalog' },
+  { label: 'BIO_STATS', id: 'bio-stats' },
+  { label: 'OPS_FEED', id: 'ops-feed' },
+  { label: 'SEC_PORTAL', id: 'sec-portal' },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const fadeInUpVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55 } },
+};
+
 export default function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 20 }, (_, i) => {
+        const colors = ['#FFE600', '#00F0FF', '#FF003C'];
+        return {
+          id: i,
+          size: i % 2 === 0 ? 2 : 3,
+          color: colors[i % colors.length],
+          left: `${(i * 37) % 100}%`,
+          top: `${(i * 23) % 100}%`,
+          opacity: 0.3 + (i % 3) * 0.1,
+          dx: ((i % 5) - 2) * 12,
+          dy: ((i % 7) - 3) * 10,
+          duration: 3.5 + (i % 4) * 1.2,
+        };
+      }),
+    []
+  );
+
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <div className="min-h-screen font-sans selection:bg-cyber-yellow selection:text-cyber-dark">
+    <div className="min-h-screen font-sans">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-cyber-cyan/30 shadow-[0_4px_15px_rgba(0,238,252,0.15)]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -75,28 +125,89 @@ export default function App() {
           </div>
           
           <div className="hidden md:flex gap-8 items-center font-mono text-sm tracking-widest text-cyber-muted">
-            <a href="#" className="text-cyber-text border-b-2 border-cyber-yellow pb-1 transition-colors hover:text-cyber-yellow">SYST_INIT</a>
-            <a href="#" className="hover:text-cyber-cyan transition-colors">AUG_CATALOG</a>
-            <a href="#" className="hover:text-cyber-cyan transition-colors">BIO_STATS</a>
-            <a href="#" className="hover:text-cyber-cyan transition-colors">OPS_FEED</a>
-            <a href="#" className="hover:text-cyber-cyan transition-colors">SEC_PORTAL</a>
+            {NAV_LINKS.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`transition-colors hover:text-cyber-cyan ${
+                  index === 0 ? 'text-cyber-text border-b-2 border-cyber-yellow pb-1' : ''
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
 
-          <button className="clip-button bg-cyber-yellow text-cyber-dark px-6 py-2 font-mono font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all">
+          <button className="hidden md:block clip-button bg-cyber-yellow text-cyber-dark px-6 py-2 font-mono font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all">
             UPGRADE_NOW
           </button>
+
+          <button
+            className="md:hidden text-cyber-cyan"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          </button>
         </div>
+
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -12, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -12, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden border-t border-cyber-cyan/20 bg-[#0D0E14]"
+            >
+              <div className="px-6 py-4 flex flex-col gap-3 font-mono text-sm tracking-widest text-cyber-muted">
+                {NAV_LINKS.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="w-full text-left border border-cyber-cyan/20 px-4 py-3 hover:bg-cyber-cyan/10 transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <button className="w-full clip-button bg-cyber-yellow text-cyber-dark px-6 py-3 font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all">
+                  UPGRADE_NOW
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
-      <header className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden grid-blueprint">
+      <header id="syst-init" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden neon-hero-grid">
         <div className="absolute inset-0 scanline pointer-events-none" />
+        {particles.map((particle) => (
+          <motion.span
+            key={particle.id}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              width: particle.size,
+              height: particle.size,
+              left: particle.left,
+              top: particle.top,
+              backgroundColor: particle.color,
+              opacity: particle.opacity,
+            }}
+            animate={{ x: [0, particle.dx, -particle.dx, 0], y: [0, -particle.dy, particle.dy, 0] }}
+            transition={{ repeat: Infinity, duration: particle.duration, ease: 'easeInOut' }}
+          />
+        ))}
         
-        <div className="relative z-10 text-center px-4 max-w-4xl">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+          className="relative z-10 text-center px-4 max-w-4xl"
+        >
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            variants={fadeInUpVariants}
             className="inline-block mb-6"
           >
             <span className="font-mono text-xs text-cyber-cyan tracking-[0.4em] uppercase block mb-2">
@@ -106,27 +217,21 @@ export default function App() {
           </motion.div>
 
           <motion.h1 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-display text-7xl md:text-9xl text-cyber-yellow mb-8 tracking-[0.1em] glow-yellow leading-tight"
+            variants={fadeInUpVariants}
+            className="glitch-title font-display text-5xl md:text-9xl text-cyber-yellow mb-8 tracking-[0.1em] glow-yellow leading-tight"
           >
             UPGRADE YOUR FLESH
           </motion.h1>
 
           <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
+            variants={fadeInUpVariants}
             className="text-cyber-muted text-lg md:text-xl max-w-2xl mx-auto mb-12 font-sans font-light"
           >
             Transcend biological limitations. NovaCorp provides military-grade neural interfaces and bio-synthetic augmentations for the elite operator.
           </motion.p>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            variants={fadeInUpVariants}
             className="flex flex-col md:flex-row gap-6 justify-center items-center"
           >
             <button className="clip-button bg-cyber-yellow text-cyber-dark px-12 py-4 font-heading text-xl font-bold tracking-[0.2em] hover:brightness-110 transition-all cursor-pointer">
@@ -136,7 +241,7 @@ export default function App() {
               VIEW SPECS
             </button>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Decorative elements */}
         <div className="absolute top-1/4 left-8 hidden lg:block opacity-30 select-none">
@@ -159,29 +264,28 @@ export default function App() {
       </div>
 
       {/* Stats Bar */}
-      <section className="bg-cyber-dark/50 py-16 border-y border-cyber-gray/30 relative">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-          {[
-            { value: '12,402', label: 'Implants Installed' },
-            { value: '99.8%', label: 'Success Rate' },
-            { value: '100%', label: 'System Uptime' }
-          ].map((stat, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="flex flex-col gap-2"
-            >
-              <span className="font-display text-6xl text-cyber-yellow glow-yellow">{stat.value}</span>
-              <span className="font-mono text-xs text-cyber-muted tracking-[0.2em] uppercase">{stat.label}</span>
-            </motion.div>
-          ))}
+      <section id="bio-stats" className="bg-[#0D0E14] py-14 border-t border-[#FFE600] relative">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.35 }}
+          className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 text-center"
+        >
+          <StatItem end={48291} label="AUGMENTATIONS INSTALLED" format="int" />
+          <StatItem end={99.7} label="SYSTEM UPTIME" format="percent" />
+          <StatItem end={2.4} label="AVG RECOVERY TIME" format="seconds" />
+        </motion.div>
+        <div className="hidden md:block absolute inset-y-8 left-1/3 w-px bg-transparent">
+          <div className="w-16 h-px bg-[#FF003C] rotate-[60deg] origin-left" />
+        </div>
+        <div className="hidden md:block absolute inset-y-8 left-2/3 w-px bg-transparent">
+          <div className="w-16 h-px bg-[#FF003C] rotate-[60deg] origin-left" />
         </div>
       </section>
 
       {/* Catalog Section */}
-      <section className="py-32 px-6 max-w-7xl mx-auto">
+      <section id="aug-catalog" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div>
             <span className="font-mono text-xs text-cyber-cyan block mb-2 tracking-widest">// CATEGORY: HARDWARE</span>
@@ -227,44 +331,65 @@ export default function App() {
         </div>
       </section>
 
-      {/* Logs Section */}
-      <section className="py-32 bg-cyber-gray/10 relative overflow-hidden">
+      {/* Testimonials Section */}
+      <section id="ops-feed" className="py-28 bg-cyber-gray/10 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center gap-8 mb-20">
-            <div className="h-[1px] bg-cyber-yellow/20 flex-grow" />
-            <h2 className="font-display text-4xl text-cyber-yellow tracking-widest glow-yellow">CLIENT LOGS</h2>
-            <div className="h-[1px] bg-cyber-yellow/20 flex-grow" />
-          </div>
+          <h2 className="font-mono text-sm md:text-base text-cyber-cyan tracking-[0.25em] mb-14">// CLIENT_TESTIMONIALS</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {LOGS.map((log, i) => (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {TESTIMONIALS.map((item) => (
               <motion.div 
-                key={i}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className={`bg-cyber-gray/30 p-8 border-l-4 ${log.color} backdrop-blur-sm shadow-xl`}
+                key={item.name}
+                variants={fadeInUpVariants}
+                className="bg-[#0D0E14] p-7 border border-[rgba(0,240,255,0.4)] backdrop-blur-sm shadow-xl"
               >
-                <div className="flex items-center justify-between mb-6 border-b border-cyber-muted/10 pb-3">
-                  <span className="font-mono text-[10px] text-cyber-muted">LOG_ID: {log.id}</span>
-                  <div className="flex gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-cyber-cyan/60 animate-pulse" />
-                    <div className="w-2 h-2 rounded-full bg-cyber-muted/20" />
-                    <div className="w-2 h-2 rounded-full bg-cyber-muted/20" />
-                  </div>
-                </div>
-                <div className="font-mono text-sm leading-relaxed text-cyber-text">
-                  <span className="text-cyber-cyan mr-2 font-bold group-hover:animate-pulse">&gt;</span> 
-                  "{log.content}"
-                </div>
-                <div className="mt-8 text-right">
-                  <div className="font-mono text-xs text-cyber-muted italic tracking-tight">— {log.author}</div>
-                  <div className="font-mono text-[10px] text-cyber-muted/60 uppercase mt-1">{log.role}</div>
-                </div>
+                <div className="font-mono text-xs text-cyber-cyan tracking-widest mb-5">&gt; OPERATOR_REVIEW:</div>
+                <div className="font-display text-4xl text-cyber-yellow tracking-wide leading-none mb-4">{item.name}</div>
+                <p className="font-sans text-lg text-cyber-text/90 leading-relaxed mb-6">{item.content}</p>
+                <div className="font-display text-cyber-yellow text-xl tracking-[0.3em]">▮▮▮▮▮</div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section id="sec-portal" className="py-28 px-6">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.35 }}
+          className="max-w-5xl mx-auto border border-cyber-cyan/30 bg-[#0D0E14]/70 backdrop-blur-sm p-8 md:p-12"
+        >
+          <motion.h3 variants={fadeInUpVariants} className="font-display text-cyber-yellow text-5xl md:text-7xl tracking-[0.08em] mb-8">
+            JOIN THE NETWORK
+          </motion.h3>
+
+          <motion.div variants={fadeInUpVariants} className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <input
+                type="email"
+                placeholder="ENTER_NODE_ADDRESS_"
+                className="terminal-input w-full bg-black/40 border border-cyber-cyan/50 text-cyber-cyan font-mono px-5 py-4 text-sm tracking-[0.12em] placeholder:text-cyber-cyan/45 focus:outline-none focus:border-cyber-yellow"
+              />
+              <span className="terminal-caret" />
+            </div>
+            <button className="px-8 py-4 border border-[#FF003C] text-[#FF003C] font-mono tracking-[0.2em] hover:bg-[#FF003C] hover:text-black transition-colors">
+              [INITIALIZE]
+            </button>
+          </motion.div>
+
+          <motion.p variants={fadeInUpVariants} className="font-mono text-xs text-cyber-muted mt-6 tracking-[0.12em]">
+            ENCRYPTED UPLINK // NODE REGISTRATION ENABLED // PRIORITY CHANNEL ALPHA
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* Footer */}
@@ -322,6 +447,50 @@ export default function App() {
         <ShoppingCart className="w-7 h-7 group-hover:animate-bounce" />
       </motion.button>
     </div>
+  );
+}
+
+function StatItem({ end, label, format }: { end: number; label: string; format: 'int' | 'percent' | 'seconds' }) {
+  const [started, setStarted] = useState(false);
+  const [value, setValue] = useState(0);
+
+  const formatValue = (current: number) => {
+    if (format === 'int') {
+      return Math.round(current).toLocaleString('es-AR');
+    }
+    if (format === 'percent') {
+      return `${current.toFixed(1)}%`;
+    }
+    return `${current.toFixed(1)}s`;
+  };
+
+  const startAnimation = () => {
+    if (started) return;
+    setStarted(true);
+
+    const duration = 1500;
+    const initialTime = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - initialTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(end * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  return (
+    <motion.div
+      variants={fadeInUpVariants}
+      onViewportEnter={startAnimation}
+      viewport={{ once: true }}
+      className="flex flex-col gap-2"
+    >
+      <span className="countup-text font-display text-[48px] leading-none text-[#FFE600] glow-yellow">{formatValue(value)}</span>
+      <span className="font-mono text-xs text-cyber-muted tracking-[0.2em] uppercase">{label}</span>
+    </motion.div>
   );
 }
 
