@@ -14,13 +14,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install with legacy peer deps
-        run: npm install --legacy-peer-deps
+      - run: npm install
 
-      - name: Build
-        run: npm run build
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
+      - run: npm run build
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
