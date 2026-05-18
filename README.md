@@ -1,74 +1,95 @@
 # NovaCorp Cyberware Clinic
 
-Sitio web de presentación para **NovaCorp Cyberware Clinic**, desarrollado con React + Vite y desplegado en GitHub Pages.
+![NovaCorp Banner](https://juantrezza.github.io/novacorp/og-image.png)
 
-## 🌐 Preview de la web
+> "Transcend biological limitations."  
+> Military-grade neural interfaces and bio-synthetic augmentations.  
+> Night City District 7 — Est. 2071.
 
-- **Demo en vivo:** https://juantrezza.github.io/novacorp/
+## 🔗 Live Demo
+**[juantrezza.github.io/novacorp](https://juantrezza.github.io/novacorp/)**
 
-<div align="center">
-  <img width="1200" alt="NovaCorp Cyberware Clinic Preview" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+---
 
-## ✨ Features
+## Sobre el proyecto
 
-- UI estilo cyberpunk con Tailwind CSS
-- Componentes React modernos
-- Build optimizada con Vite
-- Deploy automático a GitHub Pages con GitHub Actions
+Landing page temática ambientada en el universo Cyberpunk 2077.  
+Diseñada como si fuera una clínica de implantes cibernéticos real del año 2077,  
+con una UI oscura, efectos de neón, animaciones de glitch y componentes estilo HUD.
 
-## 🧱 Stack
+---
 
-- React 19
-- Vite 6
-- TypeScript
-- Tailwind CSS 3 + PostCSS + Autoprefixer
+## Tecnologías utilizadas
 
-## 🚀 Desarrollo local
+| Herramienta | Uso |
+|---|---|
+| Google Stitch | Diseño y generación inicial de la UI |
+| Google AI Studio | Desarrollo y refinamiento del código |
+| React 19 + TypeScript | Framework principal |
+| Tailwind CSS v3 | Estilos y utilidades |
+| Framer Motion | Animaciones y transiciones |
+| Vite 6 | Bundler y build tool |
+| GitHub Actions | CI/CD — deploy automático |
+| GitHub Pages | Hosting gratuito |
 
-### Requisitos
+---
 
-- Node.js 20+
-- npm
+## Características
 
-### Instalación
+- Hero con animación de glitch y scanlines
+- Catálogo de augmentaciones con cards estilo HUD
+- Sección de stats con efecto data stream
+- Procedure flow animado
+- Pricing tiers con clip-path angular
+- Testimonials estilo terminal
+- FAQ tipo acordeón
+- Newsletter con validación
+- Menú responsive con hamburguesa
+- Partículas flotantes en el hero
+- Cursor personalizado
+- Smooth scroll entre secciones
+- Deploy automático con GitHub Actions
 
-1. Clonar el repositorio
-2. Instalar dependencias:
+---
 
-   npm install
+## Paleta de colores
 
-3. Ejecutar en desarrollo:
+| Color | Hex | Uso |
+|---|---|---|
+| Negro profundo | `#08090F` | Fondo base |
+| Amarillo neón | `#FFE600` | Acento principal, logo |
+| Cyan eléctrico | `#00F0FF` | Links, HUD elements |
+| Rojo ácido | `#FF003C` | Alertas, divisores |
 
-   npm run dev
+---
 
-4. Generar build de producción:
+## Tipografía
 
-   npm run build
+- **Bebas Neue** — Titulares y display
+- **JetBrains Mono** — Labels y elementos de UI
+- **Barlow Condensed** — Cuerpo de texto
 
-5. Previsualizar build:
+---
 
-   npm run preview
+## Cómo correrlo localmente
 
-## 📜 Scripts disponibles
+```bash
+git clone https://github.com/JuanTrezza/novacorp.git
+cd novacorp
+npm install
+npm run dev
+```
 
-- `npm run dev`: levanta servidor local en puerto 3000
-- `npm run build`: compila para producción
-- `npm run preview`: previsualiza la build
-- `npm run lint`: chequeo de tipos con TypeScript
-- `npm run clean`: limpia archivos de salida
+Abrí [http://localhost:3000](http://localhost:3000)
 
-## ⚙️ Deploy
+---
 
-El deploy se realiza automáticamente al hacer push a `main` usando el workflow en [.github/workflows/deploy.yml](.github/workflows/deploy.yml).
+## Deploy
 
-Configuración de base path para GitHub Pages en [vite.config.ts](vite.config.ts).
+El proyecto se publica automáticamente en GitHub Pages  
+cada vez que se hace push a la rama `main`,  
+usando GitHub Actions con Vite build.
 
-## 📁 Estructura del proyecto
+---
 
-- [src](src)
-- [index.html](index.html)
-- [vite.config.ts](vite.config.ts)
-- [tailwind.config.js](tailwind.config.js)
-- [postcss.config.js](postcss.config.js)
-- [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+*Diseñado con Google Stitch · Desarrollado con Google AI Studio*
