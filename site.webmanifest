@@ -1,0 +1,16 @@
+{
+  "name": "NovaCorp Cyberware Clinic",
+  "short_name": "NovaCorp",
+  "start_url": "/novacorp/",
+  "display": "standalone",
+  "background_color": "#08090F",
+  "theme_color": "#08090F",
+  "description": "Military-grade neural interfaces and bio-synthetic augmentations for elite operatives.",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%2308090F'/%3E%3Cpath d='M40 12h16v28h28v16H56v28H40V56H12V40h28z' fill='%23FFE600'/%3E%3C/svg%3E",
+      "sizes": "96x96",
+      "type": "image/svg+xml"
+    }
+  ]
+}
