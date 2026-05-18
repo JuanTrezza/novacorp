@@ -21,9 +21,23 @@ body {
   font-family: "Barlow Condensed", sans-serif;
 }
 
-body,
-* {
+.crosshair-zone,
+.crosshair-zone * {
   cursor: crosshair;
+}
+
+button,
+input,
+textarea,
+select,
+a,
+[role="button"] {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid #00F0FF;
+  outline-offset: 2px;
 }
 
 ::selection {
@@ -95,8 +109,52 @@ body,
   animation: glitch 3s infinite;
 }
 
+.blink-status {
+  animation: blink-status 1.2s steps(1, end) infinite;
+}
+
 .countup-text {
   animation: countup 0.8s ease both;
+}
+
+.section-break {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-break::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid rgba(0, 240, 255, 0.28);
+}
+
+.section-break span {
+  position: relative;
+  z-index: 1;
+  background: #08090f;
+  color: #00F0FF;
+  padding: 0 16px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .terminal-caret {
@@ -160,5 +218,33 @@ body,
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes blink-status {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-particle,
+  .scanline {
+    display: none !important;
+  }
+
+  .glitch-title,
+  .countup-text,
+  .blink-status {
+    animation: none !important;
+  }
+
+  * {
+    scroll-behavior: auto !important;
   }
 }
